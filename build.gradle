@@ -2,13 +2,16 @@ plugins {
     id('java')
     id('maven-publish')
     id "io.freefair.lombok" version "$freefairLombokVersion"
+    id 'com.palantir.git-version' version '0.15.0'
 }
 
 repositories {
     mavenCentral()
 }
 
-version("$projectVersion")
+version(gitVersion)
+
+apply plugin: "com.palantir.git-version"
 
 dependencies {
     implementation("org.apache.commons:commons-compress:$apacheCompressVersion")
@@ -19,6 +22,15 @@ dependencies {
 }
 
 publishing {
+    publications {
+        vanityCacheLibrary(MavenPublication) {
+            groupId = "com.github.vanity"
+            artifactId = "cache-library"
+            version = gitVersion
+
+            from components.java
+        }
+    }
     repositories {
         maven {
             name = "GitHubPackages"
