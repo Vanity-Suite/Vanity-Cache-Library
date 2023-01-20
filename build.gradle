@@ -13,6 +13,9 @@ version(gitVersion)
 
 apply plugin: "com.palantir.git-version"
 
+def projectDetails = versionDetails()
+def latestVersion = projectDetails.lastTag
+
 dependencies {
     implementation("org.apache.commons:commons-compress:$apacheCompressVersion")
     implementation("com.github.jponge:lzma-java:$lzmaVersion")
@@ -26,7 +29,7 @@ publishing {
         vanityCacheLibrary(MavenPublication) {
             groupId = "com.github.vanity"
             artifactId = "cache-library"
-            version = gitVersion
+            version = latestVersion
 
             from components.java
         }
@@ -36,8 +39,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/Vanity-Suite/Vanity-Cache-Library")
             credentials {
-                credentials.username = System.getenv("GITHUB_ACTOR")
-                credentials.password = System.getenv("PACKAGES_TOKEN")
+                username = System.getenv("USERNAME")
+                password = System.getenv("PACKAGES_TOKEN")
             }
         }
     }
