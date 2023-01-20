@@ -15,6 +15,18 @@ dependencies {
     implementation("com.github.jponge:lzma-java:$lzmaVersion")
     implementation "com.google.guava:guava:$guavaVersion"
 
-
     testImplementation("junit:junit:$junitVersion")
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Vanity-Suite/Vanity-Cache-Library")
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("PACKAGES_TOKEN")
+            }
+        }
+    }
 }
