@@ -36,7 +36,7 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/Vanity-Suite/Vanity-Cache-Library")
             credentials {
-                credentials.username = System.getenv("USERNAME")
+                credentials.username = System.getenv("GITHUB_ACTOR")
                 credentials.password = System.getenv("PACKAGES_TOKEN")
             }
         }
