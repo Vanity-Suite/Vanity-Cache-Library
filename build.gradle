@@ -16,6 +16,9 @@ apply plugin: "com.palantir.git-version"
 def projectDetails = versionDetails()
 def latestVersion = projectDetails.lastTag
 
+Properties properties = new Properties()
+properties.load(project.file('local.properties').newDataInputStream())
+
 dependencies {
     implementation("org.apache.commons:commons-compress:$apacheCompressVersion")
     implementation("com.github.jponge:lzma-java:$lzmaVersion")
@@ -39,8 +42,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/Vanity-Suite/Vanity-Cache-Library")
             credentials {
-                username = System.getenv("USERNAME")
-                password = System.getenv("PACKAGES_TOKEN")
+                username = properties.getProperty("GITHUB_PACKAGES_USERNAME") ?: System.getenv("USERNAME")
+                password = properties.getProperty("GITHUB_PACKAGES_TOKEN") ?: System.getenv("PACKAGES_TOKEN")
             }
         }
     }
